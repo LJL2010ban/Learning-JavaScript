@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrenheit From Celsius</title>
+</head>
+<body>
+<!--捕获鼠标事件 onclick事件-->
+<input type="button" onclick="alert('You clicked the button!')" value="Click Me" />
+<!--onMouseOver-->
+<img src="img/wan.png" alt="image 1" onmouseover="alert('You entered the image!')" />
+<!--onMouseOut-->
+<img src="img/timg.jpg" alt="click" onmouseover="this.src='img/timg1.jpg';" onmouseout="this.src='img/timg2.jpg';"/>
+<script>
+    var cTemp = 100;// temperature in Celsius
+    // Let's be generous with parentheses
+    var hTemp = ((cTemp * 9) / 5) + 32;
+    document.write("Temperature in Celsius: " + cTemp + "degrees<br/>");
+    document.write("Temperature in Fahrenheit: " + hTemp + "degrees");
+
+</script>
+</body>
+</html>

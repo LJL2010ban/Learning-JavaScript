@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookie test</title>
+    <script src="cookies.js"></script>
+</head>
+<body>
+<a href="test10.html">Back to Cookie test page </a>
+<div id="output"></div>
+<script>
+    window.onload = function () {
+        document.getElementById('output').innerHTML = "your cookie value:" + getCookie("Baude Cookie");
+    }
+</script>
+</body>
+</html>

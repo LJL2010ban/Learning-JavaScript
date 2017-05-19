@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象编程</title>
+    <style>
+        td {border: 1px solid gray;
+            padding: 3px 5px;}
+    </style>
+</head>
+<body>
+<!--this是指HTML元素本身（本例中指img元素），而当我们在函数或方法里使用this时，它指向函数的“父对象”
+    在函数最初声明时，它的父对象是全局对象window。window对象并没有名为info的属性，如果直接调用myFunc()函数，会发生错误-->
+<img src="../img/timg.jpg" alt="tick" onmouseover="this.src='../img/timg1.jpg';" />
+<input type="button" value="Good ShowInfo Call" onclick="myNewObject.showInfo()" />
+<!--myFunc()是全局对象的一个方法（因为它定义时没有指定任何对象作为父对象），它会试图给
+alert()对话框传递一个并不存在的属性window.info的值-->
+<input type="button" value="myFunc Call" onclick="myFunc()" />
+<!--由于这个方法在对象myNewObject之外是不存在的，JavaScript会报告一个错误-->
+<input type="button" value="Bad showInfo Call" onclick="showInfo()" />
+<!--使用构造函数创建对象-->
+<input type="button" value="Show Info 1" onclick="myNObject.showInfo()" />
+<input type="button" value="Show Info 2" onclick="myNObject2.showInfo()" />
+<input type="button" value="Change Info of object2" onclick="myNObject2.setInfo('New information!')" />
+<!--构造函数参数-->
+<input type="button" value="Show Info person1" onclick="person1.showInfo()" />
+<input type="button" value="Show Info person2" onclick="person2.showInfo()" />
+<input type="button" value="Prototype say hello person2" onclick="person2.sayHello()" />
+<script>
+    document.write("<table>");
+    document.write("<tr><td>test</td><td>"+'test'+"</td></tr>");
+    myNewObject = new Object();
+    myNewObject.info = 'I am a shiny new object!';
+    //document.write("<tr><td>test</td><td>"+myNewObject.info+"</td></tr>");
+    myNewObject.showInfo = myFunc;// 用有问题myFunc()不可以
+    /*
+    * myNewObject.showInfo = function(){ alert(this.info);};
+    *
+    * 这种方式被称为匿名函数
+    * */
+    //document.write("<tr><td>test</td><td>"+myNewObject.showInfo()+"</td></tr>")
+    // 构造函数实例化
+    // 对象实例化
+    var myNObject = new myObjectType();
+    var myNObject2 = new myObjectType();
+    var x = myNObject.info;
+    //myNObject.showInfo;
+    //myNObject.setInfo("Here is some new information");
+    document.write("<tr><td>Info属性</td><td>"+x+"</td></tr>");
+    //document.write("<tr><td>showInfo方法</td><td>"+myNObject.showInfo()+"</td></tr>");
+    myNObject.setInfo("Here is some new information");
+    //document.write("<tr><td>setInfo方法</td><td>"+myNObject.info+"</td></tr>");
+    // 构造函数参数
+    var person1 = new Person('Baude');
+    var person2 = new Person('Alice');
+    document.write("<tr><td>Info属性</td><td>"+x+"</td></tr>");
+    // 构造函数设置多个参数
+    var car1 = new Car("blue", "1998", "Ford", 79500);
+    var car2 = new Car("yellow", "2004", "Nissan", 56350);
+    document.write("<tr><td>car1.odometerReading</td><td>"+car1.odometerReading+"</td></tr>");
+    car1.setOdometer(83450);
+    document.write("<tr><td>car1.odometerReading</td><td>"+car1.odometerReading+"</td></tr>");
+    // 继承对象
+    var myCat = new Pet();
+    myCat.setAnimal = "cat";
+    myCat.setName = "Sylvester";
+    // dog对象继承Pet对象
+    Dog.prototype = new Pet();
+    var myDog = new Dog();
+    myDog.setName("Alan");
+    myDog.setBreed("Greyhound");
+    //alert(myDog.name + " is a " + myDog.breed);
+    // string backward
+    //var inString = prompt("Enter your test string: ");
+    //document.write("<tr><td>inString.backwards()</td><td>"+inString.backwards+"</td></tr>");
+    //document.write(inString.backwards());
+    document.write("</table>")
+
+    function myFunc() {
+        alert(this.info);
+    };
+    // 构造函数
+    function myObjectType() {
+        this.info = 'I am a shiny  new object';
+        this.showInfo = function () {
+            alert(this.info);
+        };
+        this.setInfo = function (newInfo) {
+            this.info = newInfo; // overwrite the value od the property info
+        }
+    };
+    // 构造函数参数
+    function Person(personName) {
+        this.name = personName;
+        this.info = 'I am called ' + this.name;
+        this.showInfo = function () {
+            alert(this.info);
+        }
+    };
+    // 定义构造函数时设置多个参数
+    function Car(Color, Year, Make, Miles) {
+        this.color = Color;
+        this.year = Year;
+        this.make = Make;
+        this.odometerReading = Miles;
+        this.setOdometer = function (newMiles) {
+            this.odometerReading = newMiles;
+        }
+    };
+    /*
+    * 使用prototype扩展和继承对象
+    * 扩展对象 - 当一个对象已经被实例化之后，想使其具有新的方法和属性，这时可以使用prototype，从而迅速添加属性和方法，然后就可以用于对象的全部实例
+    * 继承对象 - 指从一个对象类型创建另一种对象类型，新对象类型继承老对象类型的属性和方法，然后不断细化他们拉得到更特定的类型
+    * 封装 - 面向对象编程的一种能力，表示吧数据和指令隐藏到对象内部。
+    *        对于想从外部访问的变量和函数，需要在赋值时使用关键字this，这时他们就成为了对象的属性和方法
+    * JavaScript模拟实现继承的方式也是使用关键字prototype
+    * */
+    // 扩展Person对象
+    Person.prototype.sayHello = function () {
+        alert(this.name + " says Hello");
+    }
+    // 继承对象
+    function Pet() {
+        this.animal = "";
+        this.name = "";
+        this.setAnimal = function (newAnimal) {
+            this.animal = newAnimal;
+        };
+        this.setName = function (newName) {
+            this.name = newName;
+        };
+    }
+    // 创建Dog对象
+    function Dog() {
+        this.breed = "";
+        this.setBreed = function (newBreed) {
+            this.breed = newBreed;
+        }
+    }
+    // 如何实现Dog对象继承Pet对象呢
+    // Dog.prototype = new Pet();
+    // 扩展string对象
+    String.prototype.backwards = function () {
+        var out = '';
+        for(var i = this.length - 1; i >= 0; i--){
+            out += this.substr(i, 1);
+        }
+        return out;
+    }
+    //var outStrng = prompt("test your back string");
+    //document.write(outStrng.backwards());
+    // 封装
+    function Box(width, length, height) {
+        function volume(a, b, c) {
+            return a * b * c;
+        }
+        this.boxVolume = volume(width, length, height);
+    }
+    var crate = new Box(5, 4, 3);
+    //alert("volume = " + crate.boxVolume);
+    //alert(volume(4,3,2));
+    /*
+    * JSON
+    * "参数" : "值" 对里的参数部分必须遵守一些简单的语法规则：
+    * > 不能是JavaScript保留的关键字
+    * > 不能以数字开头
+    * > 除了下划线和美元符号外，不能包含任何特殊字符
+    * JSON对象的值可以是如下一些数据类型：
+    * > 数值
+    * > 字符串
+    * > 布尔值
+    * > 数组
+    * > 对象
+    * > null（空）
+    *
+    * 不支持JSON标准的对象：
+    * > Date
+    * > Error
+    * > Math
+    * > Function
+    *
+    *JSON.parse()
+    * */
+    var Mary_08 = '{"height":1.9, "age":36, "eyeColor":"brown"}'
+    var myOb_08 = JSON.parse(Mary_08);
+    var out_08 = "";
+    for(i in myOb_08){
+        out_08 += i + " = " + myOb_08[i] + "\n";
+    }
+    //alert(out_08);
+    /*
+    * JSON数据序列化
+    * JSON.stringify()
+    * */
+    var Dan_08 = new Object();
+    Dan_08.height = 1.85;
+    Dan_08.age = 41;
+    Dan_08.eyeColor = "blue";
+    //alert(JSON.stringify(Dan_08));
+    // object.property & object["property"]
+    var conference = {"startDay" : "Monday",
+                      "nextDay" : "Tuesday",
+                      "endDay" : "Wednesday"};
+    //alert('conference[startDay] = ' + conference["startDay"]);
+    //alert('conference.startDay = ' + conference.startDay);
+    var booklistObject = {
+        "booklist" : [{"title" : "Foundation", "author" : "Isaac Asimov"},
+            {"title" : "Dune", "author" : "Frank Herbert"},
+            {"title" : "Eon", "author" : "Greg Bear"},
+            {"title" : "2001 A Space Odyssey", "author" : "Arthur C. Clarke"},
+            {"title" : "Stranger In A Strange Land", "author" : "Robert A. Heinlein"},]
+    };
+    //document.write(booklistObject.booklist[2].author);
+    var json_out_08 = '';
+    // get the array
+    var json_books_08 = booklistObject.booklist;
+    // Loop through array, getting the books one by one
+    for(var i = 0; i < json_books_08.length; i++){
+        var json_booknumber = i + 1;
+        json_out_08 += "Book " + json_booknumber +
+            "is : '" + json_books_08[i].title +
+                "'by " + json_books_08[i].author + "\n";
+    }
+    //document.write(json_out_08);
+    alert(json_out_08);
+</script>
+</body>
+</html>

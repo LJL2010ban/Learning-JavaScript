@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calling Functions</title>
+    <script>
+        function sayHello() {
+            alert("Hello");
+        }
+        function times(a, b) {
+            alert(a * b);
+        }
+        function buttonReport(buttonId, buttonName, buttonValue) {
+            // information about the id of the button
+            var userMessage1 = "Button id: " + buttonId + "\n";
+            // then about the button name
+            var userMessage2 = "Button name: " + buttonName + "\n";
+            // and the button value
+            var userMessage3 = "Button Value: " + buttonValue;
+            // alert the user
+            alert(userMessage1 + userMessage2 + userMessage3);
+        }
+        // 变量作用域
+        function addTax(subtotal, taxRate) {
+            var total=subtotal * (1 + (taxRate / 100));
+            return total;
+        }
+
+        var invoiceValue = addTax(50, 10);
+        function alertTest() {
+            alert(invoiceValue);
+        }
+        function alertTest2() {
+            alert(total); // Error: total is not defined.
+        }
+    </script>
+</head>
+<body>
+<!--value属性是用来设置button按钮的显示值-->
+<input type="button" value="Say Hello" onclick="sayHello()" />
+<input type="button" value="Times Value" onclick="times(3, 4)"/>
+<input type="button" id="id1" name="Left Hand Button" value="Left" onclick="buttonReport(this.id, this.name, this.value)" />
+<input type="button" id="id2" name="Center Hand Button" value="Center" onclick="buttonReport(this.id, this.name, this.value)" />
+<input type="button" id="id3" name="Right Hand Button" value="Right" onclick="buttonReport(this.id, this.name, this.value)" />
+<input type="button" id="test" value="alertTest" onclick="alertTest()" />
+<input type="button" value="alertTest2" onclick="alertTest2()" />
+</body>
+</html>

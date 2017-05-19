@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="button" value="Confirm button" onclick="confirm('Are you happy to continue?')" />
+<!--prompt 打开模态对话框的一种方式，允许用户输入信息-->
+<input type="button" value="Prompt button" onclick="prompt('Are you happy to continue?', 'yes')" />
+<div id="div1">
+    <p>Here is some original text.</p>
+</div>
+<input type="button" value="getElementById.innerHTML" onclick="getElement()">
+<script>
+    function getElement() {
+    //    var myDivContents = document.getElementById("div1").innerHTML;
+    //    return myDivContents;
+        document.getElementById("div1").innerHTML = "<p>Here is some new text instead!</p>"
+    }
+</script>
+</body>
+</html>

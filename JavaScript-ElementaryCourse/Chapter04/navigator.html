@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>window.navigator</title>
+    <style>
+        td {border: 1px solid gray;
+            padding: 3px 5px;}
+    </style>
+</head>
+<body>
+<script>
+    document.write("<table>");
+    document.write("<tr><td>appName</td><td>"+navigator.appName + "</td></tr>");
+    document.write("<tr><td>appCodeName</td><td>"+navigator.appCodeName + "</td></tr>");
+    document.write("<tr><td>appVersion</td><td>"+navigator.appVersion + "</td></tr>");
+    document.write("<tr><td>language</td><td>"+navigator.language + "</td></tr>");
+    document.write("<tr><td>cookieEnabled</td><td>"+navigator.cookieEnabled + "</td></tr>");
+    document.write("<tr><td>cpuClass</td><td>"+navigator.cpuClass + "</td></tr>");
+    document.write("<tr><td>onLine</td><td>"+navigator.onLine + "</td></tr>");
+    document.write("<tr><td>platform</td><td>"+navigator.platform + "</td></tr>");
+    document.write("<tr><td>No of Plugins</td><td>"+navigator.plugins.length + "</td></tr>");
+
+    var myDate = new Date();
+    /*document.write(myDate.getFullYear());
+    document.write("<tr><td>getFullYear</td><td>"+ myDate.getFullYear() + "</td></tr>");
+    document.write("<tr><td>getMonth</td><td>"+ myDate.getMonth() + "</td></tr>");
+    document.write("<tr><td>getDate</td><td>"+ myDate.getDate() + "</td></tr>");
+    document.write("<tr><td>getDay</td><td>"+ myDate.getDay() + "</td></tr>");
+    document.write("<tr><td>getHours</td><td>"+ myDate.getHours() + "</td></tr>");
+    document.write("<tr><td>getMinutes</td><td>"+ myDate.getMinutes() + "</td></tr>");
+    document.write("<tr><td>getSeconds</td><td>"+ myDate.getSeconds() + "</td></tr>");*/
+    document.write("<tr><td>ToDateString</td><td>"+ myDate.toDateString() + "</td></tr>");// Tue May 02 2017
+    document.write("<tr><td>toTimeString</td><td>"+ myDate.toTimeString() + "</td></tr>");// 21:54:46 GMT+0800 (中国标准时间)
+    // 取整
+    /*
+    * Math.floor(n) 返回n向下取整到最近的整数
+    * Math.ceil(n) 返回n向上取整到最近的整数
+    * Math.round(n) 返回四舍五入到最近的整数
+    * */
+    var myNum1 = 12.55;
+    var myNum2 = 12.45;
+    document.write("<tr><td>math.floor(12.55)</td><td>"+ Math.floor(myNum1) + "</td></tr>");
+    document.write("<tr><td>math.ceil(12.55)</td><td>"+ Math.ceil(myNum1) + "</td></tr>");
+    document.write("<tr><td>math.round(12.55)</td><td>"+ Math.round(myNum1) + "</td></tr>");
+    document.write("<tr><td>math.round(12.45)</td><td>"+ Math.round(myNum2) + "</td></tr>");
+
+    // max(a,b,c,...) or min(a,b,c,...)
+    var ageDavid = 23;
+    var ageMary = 27;
+    var ageChris = 31;
+    var ageSandy = 19;
+    document.write("<tr><td>Math.min(a,b,c,d)</td><td>"+ Math.min(ageDavid, ageChris, ageMary, ageSandy) + "</td></tr>");
+    document.write("<tr><td>Math.max(a,b,c,d)</td><td>"+ Math.max(ageDavid, ageChris, ageMary, ageSandy) + "</td></tr>");
+
+    // Math.random()
+    document.write("<tr><td>Math.random()*10</td><td>"+ Math.round(Math.random() * 10) + "</td></tr>");
+    document.write("</table>")
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax Clock</title>
+    <style>
+        #clock {
+            font: 32px normal Verdana, helvetica, sans-serif;
+        }
+    </style>
+    <script src="ajax.js"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById("btn1").onclick = callAjax;
+        }
+    </script>
+</head>
+<body>
+<input id="btn1" type="button" value="Get Time"><br/>
+<div id="clock"></div>
+</body>
+</html>

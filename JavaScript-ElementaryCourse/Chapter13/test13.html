@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Setting the style of page elements</title>
+    <style>
+        span {
+            font-size: 16pt;
+            font-family: Arial, helvetica, sans-serif;
+            padding:20px;
+        }
+        .classA {
+            width: 180px;
+            border: 3px solid black;
+            background-color: white;
+            color: red;
+            font: normal 24px Arial, helvetica, sans-serif;
+            padding: 20px;
+        }
+        .classB {
+            width: 180px;
+            border: 3px dotted white;
+            background-color: black;
+            color: yellow;
+            font: italic bold 24px "Times New Roman", serif;
+            padding: 20px;
+        }
+    </style>
+    <!--Error used for style-->
+    <!--script type="text/css" src="style.css"></script-->
+    <script src="css.js"></script>
+</head>
+<body>
+<!--span id="id1">Welcome back to my site.</span>
+<input type="button" id="btn1" value="Toggle" /-->
+
+<div id="id1" class="classA">An element with a touch of class.</div>
+<input type="button" id="btn1" value="Toggle" />
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript and Cookie</title>
+    <script src="cookies.js"></script>
+</head>
+<body>
+<!--Cookie数据的编码和解码 escape() and unescape()-->
+<a href="cookietest2.html">Go to Cookie Test Page 2</a>
+Check the cookies for this domain using your browser tools.
+<script>
+    window.onload = function () {
+        var cookieValue = prompt("Cookie value: ");
+        createCookie("Baude Cookie", cookieValue);
+    }
+</script>
+</body>
+</html>

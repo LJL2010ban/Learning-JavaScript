@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data type</title>
+    <style>
+        td {border: 1px solid gray;
+            padding: 3px 5px;}
+    </style>
+</head>
+<body onload="run()">
+<script>
+    document.write("<table>");
+    // 非数值（NaN） isNaN()函数检测非数值
+    document.write("<tr><td>isNaN(3)</td><td>"+isNaN(3) + "</td></tr>");
+    document.write("<tr><td>isNaN('Horse')</td><td>"+isNaN("Horse") + "</td></tr>");
+
+    /*
+    * parseFloat() - 解析字符串并返回一个浮点数
+    * parseInt()   - 返回整数或NaN
+    * */
+    /*document.write("<tr><td>parseFloat('21.4')</td><td>"+parseFloat("21.4") + "</td></tr>");
+    document.write("<tr><td>parseFloat('76 trombones')</td><td>"+parseFloat("76 trombones") + "</td></tr>");
+    document.write("<tr><td>parseFloat('The magnificent 7')</td><td>"+parseFloat("The magnificent 7") + "</td></tr>");
+    document.write("<tr><td>parseInt(18.95, 10)</td><td>"+ parseInt(18.95, 10) + "</td></tr>");
+    document.write("<tr><td>parseInt('12px', 10)</td><td>"+ parseInt("12px", 10) + "</td></tr>");
+    document.write("<tr><td>parseInt('1110', 2)</td><td>"+ parseInt("1110", 2) + "</td></tr>");
+    document.write("<tr><td>parseInt('hello')</td><td>"+ parseInt("hello") + "</td></tr>");
+*/
+    /*
+    * 无穷大      - Infinity 正负2^53
+    * isFinite() - 可以判断一个数值是否是无穷大
+    *   - 返回值
+    *       - 如果得到的结果是NaN, 正无穷大(Infinity), 负无穷大(-Infinity), 函数返回false(假)
+    *       - 其他情况返回true(真)
+    * */
+    document.write("<tr><td>isFinite(21)</td><td>"+ isFinite(21) + "</td></tr>");
+    document.write("<tr><td>isFinite('hello')</td><td>"+ isFinite("hello") + "</td></tr>");
+    document.write("<tr><td>isFinite(Math.sqrt(-1))</td><td>"+ isFinite(Math.sqrt(-1)) + "</td></tr>");
+
+    /*
+    * 转义序列
+    * \t - 制表符
+    * \n - 换行符
+    * \" - 双引号
+    * \' - 单引号
+    * \\ - 反斜杠
+    * \x99 - ASCII字符的值，以2位十六进制数值表示
+    * \u9999 - 统一编码字符的值，以4位十六进制数值表示
+    * */
+    document.write("<tr><td>\n</td><td>"+ "IMPORTANT MESSAGE:\n\nError detected!\nPlease check your data" + "</td></tr>");// 在这里并没有体现出来
+
+    /*
+    * 字符串方法 - string
+    *   contact - 连接字符串，返回结果字符串的一个拷贝
+    *   indexOf - 返回制定值在字符串里出现的第一个位置; 找到返回子串在目标字符串里的索引，找不到则返回-1
+    *   lastIndexOf - 返回指定值在字符串里出现的最后一个位置
+    *   replace - 在一个字符串里搜索指定的子字符串，并且用新的子串进行替换
+    *   split - 把字符串分解为一系列子串，保存到数组里；返回一个新数组
+    *   substr - 从指定的位置开始，提取指定数量的字符组成字符串
+    *   toLowerCase - 把字符串转换为小写字符
+    *   toUpperCase - 把字符串转换为大写字符
+    * */
+  /*  var stringFirst = "The quick brown fox ";
+    var stringSecond = "jumps over the lazy dog";
+    document.write("<tr><td>stringFirst.contact(stringSecond)</td><td>"+ stringFirst.concat(stringSecond) + "</td></tr>");
+    document.write("<tr><td>stringFirst.indexOf('fox')</td><td>"+ stringFirst.indexOf('fox') + "</td></tr>");
+    document.write("<tr><td>stringFirst.indexOf('dog')</td><td>"+ stringFirst.indexOf('dog') + "</td></tr>");
+    document.write("<tr><td>stringFirst.lastIndexOf('fox')</td><td>"+ stringFirst.lastIndexOf('fox') + "</td></tr>");
+    document.write("<tr><td>stringFirst.replace('brown', 'orange')</td><td>"+ stringFirst.replace("brown", "orange") + "</td></tr>");
+    document.write("<tr><td>stringFirst.split(' ')</td><td>"+ stringFirst.split(" ") + "</td></tr>");
+    document.write("<tr><td>stringFirst.substr(4, 11)</td><td>"+ stringFirst.substr(4, 11) + "</td></tr>");
+    document.write("<tr><td>stringFirst.substr(4)</td><td>"+ stringFirst.substr(4) + "</td></tr>");
+    document.write("<tr><td>stringFirst.toLowerCase()</td><td>"+ stringFirst.toLowerCase() + "</td></tr>");
+    document.write("<tr><td>stringFirst.toUpperCase()</td><td>"+ stringFirst.toUpperCase() + "</td></tr>");
+*/
+    /*
+    * 数组
+    * var myArray = new Array(); OR var myArray = [];
+    *
+    * 数组的常用方法
+    *   concat - 合并多个数组
+    *   join - 把多个数组元素合并为一个字符串
+    *   toString - 以字符串形式返回数组
+    *   indexOf - 在数组搜索指定元素
+    *   lastIndexOf - 返回与搜索规则匹配的最后一个元素
+    *   slice - 根据指定的索引和长度返回一个新数组
+    *   sort - 根据字母顺序或提供的函数对数组进行排序
+    *   splice - 在数组指定索引添加或删除一个或多个元素
+    * */
+    var myArray = ['Monday', 'Tuesday', 'Wednesday'];
+    var myOtherArray = ['Thursday', 'Friday'];
+    var myWeek = myArray.concat(myOtherArray)
+    document.write("<tr><td>myArray.concat(myOtherArray)</td><td>"+ myArray.concat(myOtherArray) + "</td></tr>");
+    document.write("<tr><td>myArray.join()</td><td>"+ myArray.join() + "</td></tr>");// become one string
+    document.write("<tr><td>myArray.indexOf('Monday')</td><td>"+ myArray.indexOf('Monday') + "</td></tr>");
+    document.write("<tr><td>myWeek.slice(1,3)</td><td>"+ myWeek.slice(1,4) + "</td></tr>");
+    // splice(index, howmany, [new elements])
+    document.write("<tr><td>myWeek</td><td>"+ myWeek + "</td></tr>");
+
+    /*
+    * Powerful Shell
+    * Condition statement
+    *
+    * 比较操作符
+    *  == - 等于
+    *  === - 值和类型都等于
+    *  != - 不等于
+    *  >  - 大于
+    *  <  - 小于
+    *  >= - 大于等于
+    *  <= - 小于等于
+    *
+    *  if简便语法
+    *  (条件为真) ? [条件为真执行的语句] : [条件为假执行的语句];
+    *
+    *  switch
+    *
+    *  && ||
+    *
+    *  while
+    *
+    *  do...while
+    *
+    *  for
+    *
+    *  break
+    *
+    *  for...in 用于在对象的属性里进行循环
+    *
+    * */
+    var x = 2;
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var message = "";
+    for (i in days){
+        message += 'Day : ' + i + ' is ' + days[i] + '\n';
+    }
+    //alert(message);
+    document.write("<tr><td>x == '2'</td><td>"+ (x == "2") + "</td></tr>");
+    document.write("<tr><td>for...in</td><td>"+ message + "</td></tr>");
+    document.write("<tr><td>x === '2'</td><td>"+ (x === "2") + "</td></tr>");
+
+    /*
+    * 面向对象编程
+    *
+    * */
+    document.write("</table>");
+
+    /*
+    * dug Code
+    *
+    * */
+    function sayHi() {
+        alert("Hello!");
+    }
+
+    /*
+    * 标题变换
+    *
+    * onload() - <body onload="function()"> 当页面加载完成时，会触发onload事件，就会执行事件处理器里指定的代码
+    * setInterval() - setInterval(function(), 2000) 第一个参数是要重复运行的函数，第二个参数是每次执行的时间间隔（毫秒）
+    * */
+    var banners = ["../img/timg1.jpg", "../img/timg2.jpg", "../img/timg3.jpg"];
+    var counter = 0;
+    function run() {
+        setInterval(cycle, 2000);
+    }
+
+    function cycle() {
+        counter++;
+        if(counter == banners.length) counter = 0;
+        document.getElementById("banner").src = banners[counter];
+    }
+    function wrangleArray() {
+        var sentence = "JavaScript is a reaally cool language";
+        var newSentence= "";
+        // Write it out
+        document.getElementById("div1").innerHTML = "<p>" + sentence + "</p>";
+        // Convert to an array
+        var words = sentence.split(" ");
+        // Remove 'really' and 'cool', and add 'powerful' instead
+        var message = words.splice(3, 2, "powerful");
+        // use alert to say what words were removed
+        alert('Removed words: ' + message);
+        // Convert the array to a string, and write it out
+        document.getElementById("div2").innerHTML = "<p>" + words.join(" ") + "</p>";
+    }
+</script>
+<div id="div1"></div>
+<div id="div2"></div>
+<script>//wrangleArray();</script>
+<!--input type="button" value="good" onclick="sayHi()" />
+<input type="button" value="bad" onclick="sayhi()" /-->
+<img id="banner" alt="banner" src="../img/timg1.jpg" />
+</body>
+</html>

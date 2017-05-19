@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>响应事件</title>
+</head>
+<body>
+<!--JavaScript早期的处理方式-->
+<!--input type="button" onclick="myFunction()" /-->
+<!---->
+<input type="button" id="myButton" value="myButton" onclick="buttonAlert()" />
+<a href="target.html" id="myLink">Link text</a>
+
+<form id="form1">
+    Name: <input type="text" value="" name="username" id="user" />[Required field]<br/>
+    Phone: <input type="text" value="" name="telephone" id="phone" />[Optional field]<br/>
+    <input type="submit" />
+</form>
+<input id="myOnClick_09" type="button" value="Show Event Properties" />
+<div id="output_09"></div>
+<script>
+    /*
+    * 常见响应事件
+    * onBlur - 用户离开字段
+    * onChange - 用户修改了值，正要离开
+    * onClick - 用户点击
+    * onDblClick - 用户双击鼠标
+    * onFocus - 用户进入字段（点击它或跳转到它）
+    * onKeydown - 在元素被激活时，一个按键被按下
+    * onLoad - 对象已经加载
+    * onMousedown - 鼠标按钮在一个对象上被按下
+    * onMouseup - 鼠标按钮被释放
+    * onMouseover - 鼠标移动到对象上
+    * onMousemove - 鼠标在对象上移动
+    * onMouseout - 鼠标离开对象
+    * onReset - 用户重置表单
+    * onSelect - 用户选择了对象的一些内容
+    * onSubmit - 用户提交表单
+    * onUnload - 用户关闭浏览器窗口
+    * */
+    function buttonAlert() {
+        alert("You clicked the button");
+    }
+    //document.getElementById("myButton").onclick = buttonAlert();
+    document.getElementById("myButton").onclick = function () {
+        alert("The second click function for myButton");
+    };
+    document.getElementById("myLink").onclick = function () {
+        // running code
+        this.href = "https://baidu.com";
+        // this statement wnat to forbid this default action
+        //return false;
+        return confirm("I'm going to send you to Google instead. OK?");
+    };
+    // 取消onSubmit事件的默认操作
+    function checkform() {
+        document.getElementById("form1").onsubmit = function () {
+            var allowSubmit = true;
+            if(document.getElementById("user").value == ""){
+                alert("Name field cannot be blank");
+                allowSubmit = false;
+            }
+            if(allowSubmit)
+                alert("Data OK - submitting form");
+            return allowSubmit;
+        }
+    }
+    window.onload = checkform;
+    /*
+    * event对象
+    * 跨浏览器的事件处理器
+    *
+    * 如果跨浏览器的属性不同
+    * */
+    //myElement = document.getElementById("someID");
+    //myElement.onclick = function (e) {
+    //    if (!e) e = window.event;// 这样的e就代表的任何浏览器的event对象
+    //}
+    // 属性不同
+    //if (!e) var e = window.event;
+    //var element = (e.event) ? e.target : e.srcElement;
+    // 列出onclick事件的属性
+    function showEvent() {
+        var output_09 = "";
+        document.getElementById("myOnClick_09").onclick = function (e) {
+            if (!e) var e = window.event;
+            for (i in e){
+                output_09 += i + " = " + e[i] +"<br/>";
+            }
+            document.getElementById("output_09").innerHTML = output_09;
+        }
+    }
+    window.onload = showEvent();
+    /*
+    * 添加或删除任意数量的事件处理
+    * 添加 - addEventListener
+    * 删除 - removeEventListener
+    * */
+    // w3c 处理方式
+    //element.addEventListener('click', myFunction, false);
+    //element.removeEventListener('click', myFunction, false);
+    //微软处理方式
+    //element.attachEvent('onclick', myFunction);
+    //element.detachEvent('onclick', myFunction);
+    // 跨浏览器的实现方式
+    function addEventHandler(element, eventType, handlerFunction) {
+        if (element.addEventListener){
+            element.addEventListener(eventType, handlerFunction, false);
+        } else if (element.attachEvent){
+            element.attachEvent('on'+eventType, handlerFunction);
+        }
+    }
+</script>
+</body>
+</html>
