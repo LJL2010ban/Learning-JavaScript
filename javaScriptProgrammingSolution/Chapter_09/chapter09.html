@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="9.2">
+    <div id="foo">first</div>
+    <div id="second">Second</div>
+    <!--script>
+        var element = document.getElementById('foo');
+        console.log(element.innerHTML);
+        alert(element.innerHTML); //
+        // 通过标签名检索
+        var spanElement = document.getElementsByTagName('span'); // 仅获取span元素
+        var allElement = documenet.getElementsByTagName('*'); // 获取所有元素
+    </script-->
+</div>
+<div id="getElementByIdAndgetElementByTagName">
+    <p id="2_foo">
+        <span>a</span>
+        <span>b</span>
+        <span>c</span>
+    </p>
+    <p id="bar">
+        <span>x</span>
+    </p>
+    <!--script>
+        var foo = document.getElementById('2_foo');
+        // 在element对象中没有getElementById()方法
+        alert(foo.getElementById); // undefined
+        // 在Element对象中存在getElementsByTagName()方法
+        alert(foo.getElementsByTagName); // Function getElementsByTagName(){[native code]}
+        // 从foo的子孙节点中获得元素span
+        var fooSpans = foo.getElementsByTagName('span');
+        alert(fooSpans.length);
+        var allSpans = document.getElementsByTagName('span');
+        alert(allSpans.length);
+    </script-->
+
+</div>
+<div id="Live">
+    <div id="3_foo">
+        <span>first</span>
+        <span>second</span>
+    </div>
+    <!--script>
+        /*
+         * getElementsByTagName()所能取得的对象是一个NodeList对象，而不是单纯的Node对象的数组。
+         * NodeList对象的一大特征就是它是一个Live对象
+         * */
+        var elems = document.getElementById('Live');
+        var elems2 = elems.getElementsByTagName('span')
+        alert(elems2.length);
+        var newSpan = document.createElement('span');
+        newSpan.appendChild(document.createTextNode('third'));
+        var foo = document.getElementById('3_foo');
+        foo.appendChild(newSpan);
+        alert(elems2.length);
+    </script-->
+</div>
+<div id="4_foo">
+    <div id="a">
+        <div id="b"></div>
+        <div id="my">
+            <div id="c">
+                <div id="d"></div>
+            </div>
+            <div id="e"></div>
+        </div>
+        <div id="f"></div><div id="g"></div>
+    </div>
+    <script>
+        var my = document.getElementById('my');
+        var elem;
+        elem = my.parentNode;
+        alert(elem.id);  // => 'a'
+        // 子元素
+        elem = my.firstChild;
+        alert(elem.id);  // => undefined 取得的是空白节点
+        elem = my.nextSibling;
+        alert(elem.id);  // => 'c'
+        elem = my.lastChild;
+        alert(elem.id);  //
+    </script>
+</div>
+</body>
+</html>

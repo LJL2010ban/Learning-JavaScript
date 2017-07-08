@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../angular.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<my-directive></my-directive>
+<div ng-controller="ParentController">
+    <p>We can access:{{ rootParent }}
+    and {{ parentProperty }}</p>
+    <div ng-controller="ChildController">
+        <p>
+            We can access:
+            {{ rootParent }} and
+            {{ parentProperty }} and
+            {{ childProperty }}
+        </p>
+        <p>{{ fullSentenceFromChild }}</p>
+    </div>
+</div>
+<div my-second-directive my-url="http://google.com" my-link-text="Click me to go to Google....">
+
+</div>
+</body>
+</html>

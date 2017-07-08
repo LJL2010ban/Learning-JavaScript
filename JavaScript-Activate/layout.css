@@ -1,0 +1,9 @@
+/* position属性的合法值有static, fixed, relative, absolate.
+* static是position属性的默认值，意思就是按照他们在标记里出现的先后顺序出现在浏览器窗口里。
+* relative含义与static相似，区别就是position属性等于relative的元素还可以通过应用float属性，从文档的正常显示顺序里脱离出来
+* absolute属性，可以把它摆放到容器容纳他的“容器”的任何位置*/
+element{
+    position: absolute;
+    top: 50px;
+    left: 100px;
+}

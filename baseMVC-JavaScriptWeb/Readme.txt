@@ -1,0 +1,1 @@
+This project uses for learning <JavaScript Web Applications>.

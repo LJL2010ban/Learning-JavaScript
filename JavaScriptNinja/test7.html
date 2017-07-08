@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式</title>
+</head>
+<body>
+<!--img src="image/not-love.jpg"-->
+<div></div>
+<div id="testSubject"></div>
+<div id="testForm" action="/">
+    <input type="text" id="id"/>
+    <input type="text" name="action"/>
+</div>
+<div title="Click me">test</div>
+<div title="but only once">only once</div>
+<script type="text/javascript">
+    /*var images = document.getElementsByTagName('img')[0];
+    var newSrc = 'image/my-love.JPG';
+    images.src = newSrc;
+    console.log((images.src === newSrc)+' the image source is now '+ images.src);
+    console.log((images.getAttribute('src') === 'image/not-love.JPG')+' the image src attribute is '+
+        images.getAttribute('src'));
+*/
+    /*
+    * 通过DOM方法和属性访问特性值
+    * */
+    /*window.onload = function () {
+        // 获取一个元素引用
+        var div = document.getElementsByTagName('div')[0];
+        // 测试DOM方法
+        div.setAttribute("id", "ninja-1");
+        console.log((div.getAttribute('id') === "ninja-1")+ ' Attribute successfully changed');
+        // 特性属性值
+        div.id = "ninja-2";
+        console.log((div.id === "ninja-2")+' Property successfully changed');
+        // 测试属性和特性是否一致
+        div.id = "ninja-3";
+        console.log((div.id === "ninja-3")+' ninja-3 property successfully changed');
+        console.log((div.getAttribute('id') === "ninja-3")+ ' Attribute successfully changed via property');
+        // 多测试几次属性和特性是否一致
+        div.setAttribute("id", "ninja-4");
+        console.log((div.id == "ninja-4")+'Property successfully changed via attribute');
+        console.log((div.getAttribute('id') === "ninja-4")+'Attribute successfully changed');
+    }*/
+
+    /*
+    * 12.2 DOM方法和DOM属性之间的性能比较
+    * */
+    // 提前设置变量
+    var count = 5000000;
+    var n;
+    var begin = new Date();
+    var end;
+    var testSubject = document.getElementById('testSubject');
+    var value;
+
+    // 测试DOM的读取方法
+    for (n=0; n<count; n++){
+        value = testSubject.getAttribute('id');
+    }
+    end = new Date();
+    console.log('Time for DOM method read: '+(end.getTime() - begin.getTime()));
+
+    // 测试属性读取
+    begin = new Date();
+    for (n=0; n<count; n++){
+        value = testSubject.id;
+    }
+    end = new Date();
+    console.log('Time for property read: '+(end.getTime() - begin.getTime()));
+
+    // 测试DOM的赋值方法
+    begin = new Date();
+    for (n=0; n<count; n++){
+        testSubject.setAttribute('id', 'testSubject');
+    }
+    end = new Date();
+    console.log('Time for DOM method write: '+(end.getTime() - begin.getTime()));
+
+    // 测试属性赋值
+    begin = new Date();
+    for (n=0; n<count; n++){
+        testSubject.id = 'testSubject';
+    }
+    end = new Date();
+    console.log('Time for property write: '+(end.getTime() - begin.getTime()));
+
+    /*
+    * 12.3 设置/获取 特性值的函数
+    * */
+    // 创建一个私有作用域
+    (function () {
+        // 创建一个转换映射
+        var translations = {
+            "for": "htmlFor",
+            "class": "className",
+            readonly: "readOnly",
+            maxlength: "maxLength",
+            cellspacing: "cellSpacing",
+            rowspan: "rowSpan",
+            colspan: "colspan",
+            tabindex: "tabIndex",
+            cellpadding: "cellPadding",
+            usemap: "useMap",
+            frameborder: "frameBorder",
+            contenteditable: "contentEditable"
+        };
+        // 定义 set/get 函数
+        window.attr = function (element, name, value) {
+            var property = translations[name] || name,
+                propertyExists = typeof element[property] !== "undefined";
+
+            if (typeof value != "undefined"){
+                if (propertyExists){
+                    element[property] = value;
+                } else {
+                    element.setAttribute(name, value);
+                }
+            }
+
+            return propertyExists ? element[property] : element.getAttribute(name);
+        };
+    })();
+
+    // 测试新函数
+    var subject = document.getElementById('testSubject');
+    console.log((attr(subject, 'id') === 'testSubject')+" id value fetched");
+    console.log((attr(subject, 'id', 'other') === 'other')+' new id value fetched');
+    console.log((attr(subject, 'id') === 'other')+ ' new id value fetched');
+    console.log((attr(subject, 'data-custom', 'whatever') === 'whatever')+' custom attribute set');
+    console.log((attr(subject, 'data-custom') === 'whatever')+' custom attribute fetched');
+
+    /*
+    * 12.4 浏览器"强暴"form元素的示例
+    * */
+    window.onload = function () {
+      var form = document.getElementById('testForm');
+
+      console.log((form.id === 'testForm')+' the id property is untouched');
+      console.log((form.action === '/')+' the action property s untouched');
+      console.log((form.getAttribute('id') === 'testForm')+' the id attribute is untouched');
+      console.log((form.getAttribute('action') === '/')+' the action attribute is untouched');
+    };
+
+    /*
+    * 13.1 绑定事件处理程序时，设置正确的上下文
+    * */
+    // 检测是否支持DOM Model
+    if (document.addEventListener){
+        // 使用DOM Model创建绑定函数
+        this.addEvent = function (elem, type, fn) {
+            elem.addEventListener(type, fn, false);
+            return fn;
+        };
+
+        this.removeEvent = function (elem, type, fn) {
+            elem.removeEventListener(type, fn, false);
+        };
+    } else if (document.attachEvent){
+        // 检测是否支持IE Model
+        // 使用IE Model创建绑定函数
+        this.addEvent = function (elem, type, fn) {
+            var bound = function () {
+                return fn.apply(elem, arguments);
+            };
+            elem.attachEvent("on"+type, bound);
+            return bound;
+        };
+        this.removeEvent = function(elem, type, fn){
+            elem.detachEvent("on"+type, fn);
+        };
+    }
+    // 声明一个load处理程序
+    addEvent(window, "load", function () {
+        var elems = document.getElementsByTagName("div");
+
+        for (var i=0; i<elems.length; i++)(function (elem) {
+            var handler = addEvent(elem, "click", function () {
+                this.style.backgroundColor = this.style.backgroundColor == '' ? 'green' : '';
+                removeEvent(elem, "click", handler);
+            });
+        })(elems[i]);
+    });
+
+    /*
+    * 13.3 规范化Event对象示例
+    * */
+    function fixEvent() {
+        // 预定义常用的函数
+        function returnTrue() {
+            return true;
+        };
+        function returnFalse() {
+            return false;
+        };
+
+        // 测试是否需要修复
+        if (!event || !event.stopPropagation){
+            var old = event || window.event;
+            // CLone the old object so that we can modify the values
+            event = {};
+            // 克隆现有的属性
+            for (var prop in old){
+                event[prop] = old[prop];
+            }
+            // The evnet occured on this element
+            if (!event.target){
+                event.target = event.srcElement || document;
+            }
+
+            // Handle which other element the event is related to
+            event.relatedTarget = event.fromElement === event.target ?
+                event.toElement :
+                event.fromElement;
+
+            // Stop the default browser action
+            event.preventDefault = function () {
+                event.returnValue = false;
+                event.isDefaultPrevented = returnTrue;
+            };
+
+            event.isDefaultPrevented = returnFalse;
+
+            // Stop the event from bubbling
+            event.stopPropagation = function () {
+                event.cancelBubble = true;
+                event.isPropagationStopped = returnTrue;
+            };
+
+            event.isImmediatePropagationStopped = returnFalse;
+
+            // Stop the event from bubbling and executing other handlers
+            event.stopImmediatePropagation = function () {
+                this.isImmediatePropagationStopped = returnTrue;
+                this.stopPropagation();
+            };
+
+            event.isImmediatePropagationStopped = returnFalse;
+
+            // Handle mouse position
+            if (event.clientX != null){
+                var doc = document.documentElement, body = document.body;
+
+                event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0)
+                               - (doc && doc.clientLeft || body && body.clientLeft || 0);
+                event.pageY = event.clientY +
+                    (doc && doc.scrollTop || body && body.scrollTop || 0) -
+                    (doc && doc.clientTop || body && body.clientTop || 0);
+            }
+
+            // Handle key presses
+            event.which = event.charCode || event.keyCode;
+
+            // Fix button for mouse clicks:
+            // 0 == left; 1 == middle; 2 == right
+            if (event.button != null){
+                event.button = (event.button & 1 ? 0 : (event.button & 4 ? 1 : (event.button & 2 ? 2 : 0)));
+            }
+        }
+        // 返回修复后的实例
+        return event;
+    }
+
+    /*
+    * 13.4 实现一个中央对象用于保存DOM元素信息
+    * */
+    (function () {
+        // 创建作用域存储对象
+        var cache = {},
+            guidCounter = 1,
+            expando = "data" + (new Date).getTime();
+        // 定义getData()函数
+        this.getData = function (elem) {
+            var guid = elem[expando];
+            if (!guid){
+                guid = elem[expando] = guidCounter++;
+                cache[guid] = {};
+            }
+            return cache[guid];
+        };
+        // 定义removeData()函数
+        this.removeData = function (elem) {
+            var guid = elem[expando];
+            if (!guid) return;
+            delete cache[guid];
+            try {
+                delete elem[expando];
+            }
+            catch (e){
+                if (elem.removeAttribute){
+                    elem.removeAttribute(expando);
+                }
+            }
+        };
+    })();
+
+    // 获取测试对象
+    var elems = document.getElementsByTagName('div');
+    // 赋值相关数据
+    for (var n=0; n<elems.length; n++){
+        getData(elems[n]).ninja = elems[n].title;
+    }
+    // 测试赋值的数据被保存了
+    for (var n=0; n<elems.length; n++){
+        console.log((getData(elems[n]).ninja === elems[n].title)+' Stored data is '+getData(elems[n]).ninja);
+    }
+    // 测试赋值的数据被删除
+    for (var n=0; n<elems.length; n++){
+        removeData(elems[n]);
+        console.log((getData(elems[n]).ninja === undefined)+ ' Stored data has been destroyed.');
+    }
+
+    /*
+    * 13.5 一个绑定事件处理程序并进行跟踪的函数
+    * */
+    (function () {
+        var nextGuid = 1;
+        this.addEvent = function (elem, type, fn) {
+            // 获取相关的数据模块
+            var data = getData(elem);
+            // 创建处理程序存储
+            if (!data.handlers) data.handlers = {};
+            // 使用type创建该type对应的数组
+            if (!data.ha[type]) data.handlers[type] = [];
+            // 标记函数
+            if (!fn.guid) fn.guid = nextGuid++;
+            // 将处理程序添加到列表中
+            data.handlers[type].push(fn);
+            // 创建事件调度器
+            if (!data.dispatcher){
+                data.disabled = false;
+                data.dispatcher = function (event) {
+                    if (data.disabled) return;
+                    event = fixEvent(event);
+                    // 调用注册的处理程序
+                    var handlers = data.handlers[event.type];
+                    if (handlers){
+                        for (var n=0; n<handlers.length; n++){
+                            handlers[n].call(elem, event);
+                        }
+                    }
+                };
+            }
+            // 注册调度器
+        }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Base js test</title>
+    <script src="baude_js.js"></script>
+</head>
+<body>
+<script>
+    var Animal = JS.Class({
+        construct: function (name) {
+            this.name = name;
+        },
+        shout: function (s) {
+            console.log(s);
+        }
+    });
+    var animal = new Animal();
+    animal.shout('animal'); // animal
+    var Dog = Animal.extend({
+        construct: function (name, age) {
+            // 调用父类构造器
+            this.parent.construct.apply(this, arguments);
+            this.age = age;
+        },
+        run: function (s) {
+            console.log(s);
+        }
+    });
+    var dog = new Dog("dog", 4);
+    console.log(dog.name);
+    dog.shout("dog");
+    dog.run("run");
+</script>
+</body>
+</html>

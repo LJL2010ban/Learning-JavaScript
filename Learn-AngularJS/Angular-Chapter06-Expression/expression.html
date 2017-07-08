@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../angular.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<div ng-controller="MyController">
+    <input ng-model="expr" type="text" placeholder="Enter an expression" />
+    <h2>{{ parseValue }}</h2>
+</div>
+</body>
+</html>

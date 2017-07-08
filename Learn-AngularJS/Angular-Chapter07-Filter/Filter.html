@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../angular.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<p>{{ 123.456789 | number:2}}</p>
+<p>{{ 123.456789 | currency}}</p>
+<p>{{ today | date:'medium'}}</p>
+<!-- ["Lerner", "Likes", "Eat"] -->
+<p>{{ ['Ari', 'Lerner', 'Likes', 'To', 'Eat', 'Pizza'] | filter:'e' }}</p>
+<p>{{ {'Ari':'Lerner', 'Likes': 'To', 'Eat': 'Pizza'} | json }}</p>
+<p>{{ [{'name': 'Ari', 'status': 'awake'}, {'name':'AQ', 'status':'sleeping'}, {'name':'Nate', 'status':'awake'}] | orderBy: 'name' }}</p>
+<p>{{ "San Francisco is very cloudy" | uppercase }}</p>
+<form name="form" novalidate>
+    <label name="email">Your email</label>
+    <input type="email" name="email" ng-model="email" placeholder="Email Address" />
+</form>
+<input type="text" required />
+<input type="text" ng-minlength="5" />
+<input type="text" ng-maxlength="20" />
+<input type="email" ng-parttern="[a-zA-Z]" />
+<input type="email" name="email" ng-model="user.email" />
+<input type="number" name="age" ng-model="user.age" />
+<input type="url" name="homepage" ng-model="user.facebook_url">
+</body>
+</html>

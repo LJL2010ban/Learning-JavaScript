@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Base P Test</title>
+    <script src="baude_p.js"></script>
+</head>
+<body>
+<script>
+    var Animal = P(function (proto, superProto) {
+        proto.init = function (name) { // 构造函数
+            this.name = name;
+        };
+        proto.move = function (meters) { // 原型方法
+            console.log(this.name + " moved " + meters + " m. ")
+        }
+    });
+
+    var a = new Animal("aaa");
+    var b = Animal("bbb"); // 无 'new' 实例化
+
+    a.move(1);
+    b.move(2);
+
+    //
+
+    var Snake = P(Animal, function (snake, animal) {
+        snake.init = function (name, eyes) {
+            animal.init.call(this, arguments); // 调用父类构造器
+            this.eyes = 2;
+        };
+        snake.move = function () {
+            console.log("Sligthering...");
+            animal.move.call(this, 5); // 调用父类的同名方法
+        };
+    });
+
+    var s = new Snake("snake", 1);
+    s.move();
+    console.log(s.name);
+    console.log(s.eyes);
+
+    //
+
+    var Cobra = P(Snake, function (cobra) {
+        var age = 1; // 私有属性
+        // 这里还可以编写私有方法
+        cobra.grow = function () { // 长大
+            return age++;
+        };
+    });
+
+    var c = new Cobra("cobra");
+    console.log(c.grow());
+    console.log(c.grow());
+    console.log(c.grow());
+
+</script>
+</body>
+</html>

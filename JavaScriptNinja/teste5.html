@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包</title>
+</head>
+<body>
+<div id="box">Test</div>
+<button id="test">Click Me!</button>
+<script>
+    /*
+    * 闭包
+    *
+    * 闭包是一个函数在创建时允许该自身函数访问并操作该自身函数之外的变量时所创建的作用域。
+    * 换句话说，闭包可以让函数访问所有的变量和函数，只要这些变量和函数存在于该函数声明时的作用域内就行
+    * */
+    // 在全局作用域内声明一个变量值
+    var outerValue = "ninja";
+    // 声明一个空变量稍后再用
+    var later;
+    // 在全局作用域内声明一个函数
+    function outerFunction(){
+        // 在函数内部声明一个值，该变量的作用域限制在该函数内部，并且在函数外部访问不到
+        var innerValue = 'samurai';
+        // 在外部函数内，声明一个内部函数。注意，声明该函数时，innerValue是在作用域内的。
+        function innerFunction() {
+            console.log(outerValue+ " I can see the ninja.");
+            console.log(innerValue+ " I can see the samurai.");
+        }
+        // 将内部函数引用到later变量上。由于later在全局作用域内，所以我们可以对它进行调用。
+        later = innerFunction;
+        //console.log('I can see the ninja. '+(outerValue == "ninja"));
+    };
+    // 调用外部函数，将会声明内部函数，并将内部函数赋值给later变量
+    outerFunction();
+    // 通过later调用内部函数。我们不能直接调用内部函数，因为它的作用域(和innerValue一起)被限制在outerFunction内
+    later();
+
+    // test2
+    /*
+    * 测试说明
+    *
+    * 内部函数的参数是包含在闭包中的
+    * 作用域之外的所有变量，即便是函数声明之后的那些声明，也都包含在闭包中。
+    * 相同的作用域内，尚未声明的变量不能进行提前引用
+    * */
+    var outerValue_2 = 'ninja';
+    var later_2;
+    function outerFunction_2() {
+        var innterValue_2 = 'samurai';
+        // 为内部函数添加一个参数
+        function innerFunction_2(paramValue) {
+            console.log('Inner can see the ninja. '+outerValue_2);
+            console.log('Inner can see the ninja. '+innterValue_2);
+            console.log('Inner can see the ninja. '+paramValue);
+            console.log('Inner can see the ninja. '+tooLate);
+        }
+        later_2 = innerFunction_2;
+    };
+    // 检查作用域外的值。该测试是失败还是通过
+    console.log('Outer can\'t see the ronin'+(!tooLate));
+    // 在内部函数声明后，在声明一个变量值
+    var tooLate = 'ronin';
+
+    outerFunction_2();
+    // 调用内部函数，运行上述测试。
+    later_2('wakizashi');
+
+    /*
+    * 使用闭包模拟私有变量
+    *
+    *
+    * */
+    // 定义一个ninja_3构造器
+    function Ninja_3() {
+        // 在该函数(构造器)内声明一个变量，由于该变量的作用域被限制在构造器内，所以它是一个私有变量。
+        // 我们使用该变量计算ninja佯攻了多少次
+        var feints = 0;
+        // 创建一个访问feints计数的方法。由于该变量在构造器内部无法被访问，这是通过只读形式访问该变量的一个常用方法
+        this.getFeints = function () {
+            return feints;
+        };
+        // 为feints计数声明一个累加器方法。由于该变量是私有的，在外面是无法对其进行增加的，外面通过一个方法对其进行限制访问
+        this.feint = function () {
+            feints++;
+        };
+    }
+    // 构建一个Ninja_3的实例
+    var ninja_3 = new Ninja_3();
+    // 调用feint()方法，该方法增加了ninja佯攻的次数
+    ninja_3.feint();
+    // 验证我们不能直接获取该变量值
+    console.log('ninja_3.getFeints() == 1 '+(ninja_3.getFeints() == 1));
+    console.log('ninja_3.feints === undefined'+(ninja_3.feints === undefined));
+
+    /*
+    * 5.6 在计时器间隔回调中使用闭包
+    *
+    *
+    * */
+    function animateIt(elementId) {
+        // 在animateIt()函数中，获取对该元素的引用
+        var elem = document.getElementById(elementId);
+        // 创建一个计时器，持续最终动画次数
+        var tick = 0;
+        // 创建一个interval即时器，该计时器内传入一个每隔10毫秒就执行一次的callback函数
+        // 在动画执行到第100次时，调整该元素的位置
+        var timer = setInterval(function () {
+            if (tick < 100){
+                elem.style.left = elem.style.top = tick + "px";
+                tick++;
+            } else{
+                clearInterval(timer);
+                console.log('tick == 100' + (tick == 100));
+                console.log('elem = '+ elem);
+                console.log('timer = '+ timer);
+            }
+        }, 10);
+    }
+    animateIt('box')
+
+    /*
+    * 绑定函数上下文
+    *
+    * call and apply方法
+    *
+    * */
+    // 给函数绑定一个特定的上下文
+    // 声明一个对象保存button的状态，用于跟踪button是否被单击过
+    var button_5_7 = {
+        clicked: false,
+        click: function () {// 定义一个方法作为click事件处理程序。由于它是一个对象方法，所以在函数内部使用this获取该对象
+            this.clicked = true;// 对于this来说这个click的事件的上下文就是button元素，而不是button这个对象
+            // 所以使用this引用会报错
+            console.log("button.clicked"+button_5_7.clicked);// 测试button按钮的状态是否在单击后进行了相应的修改
+        }
+    };
+    // 为button绑定click事件处理程序
+    var elem = document.getElementById("test");
+    elem.addEventListener("click", button_5_7.click, false);
+
+    // 5.8 给事件处理程序绑定特定的上下文
+    // 定义一个binding函数，封装了一个其他对象上的方法
+    function bind_5_8(context, name) {
+        return function () {
+            return context[name].apply(context, arguments);
+        };
+    };
+    var button_5_8 = {
+        clicked: false,
+        click: function () {
+            this.clicked = true;
+            console.log("button.clicked = "+button_5_8.clicked);
+            console.log("this : "+this);
+        }
+    };
+
+    var elem_5_8 = document.getElementById("test");
+    // 利用binding函数，将button对象作为上下文绑定到事件处理程序上
+    elem_5_8.addEventListener("click", bind_5_8(button_5_8, "click"), false);
+
+    /*
+    * 5.9 在Prototype库中，函数bind代码的示例
+    * */
+    Function.prototype.bind = function () {
+        var fn = this, args = Array.prototype.slice.call(arguments),
+            object = args.shift();
+        return function () {
+            return fn.apply(object, args.concat(Array.prototype.slice.call(arguments)));
+        };
+    };
+    var myObject = {};
+    function myFunction() {
+        return this == myObject;
+    }
+    console.log('Context is not set yet '+!myFunction());
+    var aFunction = myFunction.bind(myObject);
+    console.log('Context is set properly  '+aFunction);
+
+    /*
+    * 6.1 使用原型方法创建一个新实例
+    * */
+    // 定义一个函数，什么都不做，也不返回任何值
+    function Ninja_6_1() {};
+    // 在该函数的原型上添加一个方法
+    Ninja_6_1.prototype.swingSword = function () {
+        return true;
+    };
+    // 将该函数作为函数进行调用，测试验证什么事情都没发生
+    var ninja_6_1 = Ninja_6_1();
+    console.log('ninja_6_1 == undefined ' + (ninja_6_1 == undefined));
+    // 将函数作为构造器进行调用，测试确认，不仅新对象实例被创建了，而且函数原型上的方法也可以调用了
+    var ninja_6_1_2 = new Ninja_6_1();
+    console.log('ninja_6_1_2 && ninja_6_1_2.swingSword && ninja_6_1_2.swingSword()  '+
+        (ninja_6_1_2 && ninja_6_1_2.swingSword && ninja_6_1_2.swingSword()));
+    // 使用new操作符将函数作为构造器进行调用的时候，其上下文被定义为新对象实例。
+    /*
+    * 6.2 观察初始化活动的优先级
+    * */
+    function Ninja_6_2() {
+        // 创建一个实例变量，并赋值布尔值false
+        this.swung = false;
+        // 创建一个实例方法，返回实例变量swung的反转值
+        this.swingSword = function(){
+            return !this.swung;
+        };
+    };
+    // 使用同样的名称定义一个原型方法
+    Ninja_6_2.prototype.swingSword = function () {
+        return this.swung;
+    };
+    // 创建Ninja实例进行测试，断言实例方法会覆盖同名的原型方法
+    var ninja_6_2 = new Ninja_6_2();
+    // 这里只是为了演示优先级
+    console.log('Called the instance method, not the prototype method.'+ ninja_6_1_2.swingSword());
+
+    /*
+    * 6.3 观察原型变化时的行为
+    * */
+    // 定义一个构造器Ninja，并设置一个布尔类型的属性
+    function Ninja_6_3() {
+        this.swung = true;
+    };
+    // 使用new操作我调用构造器，初始化一个ninja实例
+    var ninja_6_3 = new Ninja_6_3();
+    // 对象创建后，在构造器的原型上添加一个方法
+    Ninja_6_3.prototype.swingSword = function () {
+        return this.swung;
+    };
+    // 测试该方法是否存在于对象实例上
+    console.log('Method exists, even out of order.'+ninja_6_3.swingSword());
+
+    /*
+    * 6.4 进一步观察原型改变时的行为
+    * */
+
+    function Ninja_6_4() {
+        this.swung = true;
+        this.swingSword = function () {// 定义一个和原型方法同名的实例方法
+            return !this.swung;
+        };
+    };
+    var ninja_6_4 = new Ninja_6_4();
+    // 定义一个与实例方法同名的原型方法
+    Ninja_6_4.prototype.swingSword = function () {
+        return this.swung;
+    };
+    // 测试哪个方法先被调用
+    console.log('Called the instance method, not the prototype method.'+
+    ninja_6_4.swingSword());
+
+    /*
+    * 6.5 通过构造器判断对象类型
+    * 判断一个实例的类型以及其构造器
+    * */
+    function Ninja_6_5() {};
+    var ninja_6_5 = new Ninja_6_5();
+    // 使用typeof判断ninja_6_5的类型，
+</script>
+
+</body>
+</html>

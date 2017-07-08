@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function forEach(list, callback){
+        for(var n=0; n < list.length; n++){
+            callback.call(list,n);
+        }
+    };
+
+    var weapons = ['shuriken', 'katana', 'nunchucks'];
+
+    forEach(weapons, function (index) {
+    //    console.log(this[index] == weapons[index]);
+    });
+
+    // 创建一个匿名函数作为事件处理程序。这里无需定义函数名称，直接砸其位置为其赋值即可。
+    window.onload = function () {
+        console.log('power!');
+    };
+    /*
+    * 创建一个函数，将其作为ninja的一个方法法。
+    * 我们将使用名为shout的属性去调用该方法，
+    * 所以也不需要定义函数名称
+    * */
+    var ninja = {
+        shout: function () {
+            console.log("Ninja");
+        }
+    };
+
+    ninja.shout();
+    /*
+    * 将函数作为callback回调传递给setTimeout()函数，以便在定时器到期时进行调用。
+    * 所以，为何要再给函数取名呢
+    * */
+    setTimeout(function () {
+        console.log("Forever!");
+    }, 10);
+
+    /*
+    * 判断一个字符串是否是回文字符串
+    *
+    * 1.单个和零个字符都是一个回文。
+    * 2.如果字符串的第一个字符和最后一个字符相同，
+    *   并且除了两个字符以外剩余的其他字符也是一个回文的话，
+    *   我们称原字符串是一个回文
+    * */
+    function isPalindrome(text) {
+      if (text.length <= 1) return true;
+      if (text.charAt(0) != text.charAt(text.length - 1)) return false;
+      return isPalindrome(text.substr(1, text.length - 2));
+    };
+    console.log("abcdcba is Palindrome "+isPalindrome("abcdcba"));
+
+    function chrip(n) {
+      return n > 1 ? chrip(n - 1) + "-chrip" : "chrip";
+    };
+    console.log(chrip(3) == "chrip-chrip-chrip");
+
+    /*
+    * 在对象中的方法递归
+    *
+    * 如下引用方法在多个引用进行调用时，有可能会产生引用丢失问题
+    *
+    * - return n > 1 ? this.chrip(n-1)+"-chrip":"chrip"
+    *   这种方法可以有效避免以上问题。
+    * */
+    var palindromeNinja = {
+        chrip: function (n) {
+            return n > 1 ? palindromeNinja.chrip(n -1) + "-chrip" : "chrip";
+        }
+    };
+
+    console.log("test "+(palindromeNinja.chrip(3) == "chrip-chrip-chrip"));
+
+    /*
+    * 内联函数
+    *
+    * 具有函数名的对象的方法函数
+    * */
+    var ninja_4_5 =  {
+        chrip: function signal(n) {
+            return n > 1 ? signal(n - 1) + "-chrip" : "chrip";
+        }
+    };
+    console.log("Work as we should expect it to!"+(ninja_4_5.chrip(3) == "chrip-chrip-chrip"));
+    /*
+    * 给内联函数取了一个名字signal，并在函数体内使用该名称进行递归引用，然后验证了，
+    * 作为ninja_4_5方法进行调用时执行正常。和之前一样，将该函数的引用赋值给samurai_4_5.chrip,
+    * 并清空原始ninja_4_5对象。
+    * 将其作为samurai的方法进行调用，我们发现一切代码都运行正常，因为清除ninja_4_5对象chrip属性
+    * 时，并没有影响给内联函数所取的用于递归调用的名字。
+    * */
+    var samurai_4_5 = {chrip: ninja_4_5.chrip};
+    ninja_4_5 = {};
+    console.log("The method correctly calls itself."+(samurai_4_5.chrip(3) == "chrip-chrip-chrip"));
+    /*
+    * 验证内联函数的标识
+    *
+    *
+    * */
+    var ninja_4_6 = function myNinja() {
+        // 声明一个内联函数，并将其赋值给一个变量
+        // 在内联函数中，验证两个名字是否等价
+        console.log("This function is named two things at onece! " + (ninja_4_6 == myNinja));
+    }
+    ninja_4_6();  // 调用函数执行内部的验证
+    // 验证内联函数的名称在内联函数外部是不可用的
+    console.log("But myNinja isn't defined outside of the function." + (typeof myNinja == "undefined"));
+    /*
+    * 函数存储
+    *
+    *
+    * */
+    var store = {
+        nextId: 1,// 持续跟踪要赋值的nextId
+        cache: {},// 创建一个对象作为缓存，用于存储函数
+        add: function (fn) { // 向缓存中添加函数，但只有缓存不存在的情况下才能添加成功
+            if (!fn.id){
+                fn.id = store.nextId++;
+                return !!(store.cache[fn.id] = fn);
+            }
+        }
+    };
+
+    function ninja_4_8() {
+    };
+    function ninja_test_8() {
+    };
+    function ninja_t(){};
+    // 测试是否按预期进行
+    console.log("Function was safely added. " + store.add(ninja_4_8));
+    console.log("But it was only added once. " + !store.add(ninja_4_8));
+    console.log("test"+store.add(ninja_test_8));
+    console.log("t "+store.add(ninja_t));
+    console.log("store.cache   "+store.cache[3]);
+
+    /*
+    * 计算素数
+    *
+    *
+    * */
+    function isPrime(value) {
+      // 创建缓存
+      if (!isPrime.answers) isPrime.answers = {};
+      // 检测缓存过的值
+      if (isPrime.answers[value] != null){
+          return isPrime.answers[value];
+      }
+
+      var prime = value != 1; // 1 can't never be prime
+      for (var i = 2; i < value; i++){
+          if (value % i == 0){
+              prime = false;
+          }
+      }
+      return isPrime.answers[value] = prime; // 保存计算出的值
+    };
+    console.log(isPrime(5)+"5 is prime！");
+    console.log(isPrime.answers[5], "The answer was cached!");
+
+    /*
+    * 模拟类似数组的方法
+    * */
+    var elems_4_10 = {
+        length: 0, // 保存元素的个数
+        add: function (elem) { // 实现将元素添加到集合的方法
+            Array.prototype.push.call(this, elem);// Array原型中的方法，直接使用
+        },
+        gather: function (id) { // 实现一个gather()方法，根据id查找元素，并将其添加到集合中
+            this.add(document.getElementById(id));
+        }
+    };
+    // 验证gather方法和add方法
+    elems_4_10.gather("first");
+    console.log(elems_4_10.length == 1);
+    elems_4_10.gather("second");
+    console.log(elems_4_10.length == 2);
+    //console.log(elems_4_10[0].nodeType);
+
+    /*
+    * 实现数组上通用的min和max方法
+    * */
+    // 实现查找最小值的方法
+    function smallest(array) {
+        return Math.min.apply(Math, array);
+    };
+    // 实现查找最大值的方法
+    function largest(array) {
+        return Math.max.apply(Math, array);
+    };
+    // test
+    console.log(smallest([0,1,2,3,4,5]));
+    console.log(largest([1,2,3,4,5,6,7,8,9]));
+
+    /*
+    * 检测并遍历参数
+    * */
+    function merge(root) {
+      for (var i=1; i < arguments.length; i++){
+          for (var key in arguments[i]){
+              root[key] = arguments[i][key];
+          }
+      }
+      return root;
+    };
+    // test
+    var merged = merge(
+        {name: "Baude"},
+        {city: "ShangHai"}
+    );
+    console.log(merged.name == "Baude");
+    console.log(merged.city == "ShangHai");
+
+    /*
+    * 4.13 对arguments列表进行切片
+    * */
+    function multiMax(multi) {
+        return multi * Math.max.apply(Math, Array.prototype.slice.call(arguments, 1));// arguments参数的引用并不是真正的数组
+    };
+    console.log("3*3 == 9"+(multiMax(3,1,2,3) == 9));
+
+    /*
+    * 函数的length属性
+    * 所有的函数都有一个length属性。不要将该属性与arguments参数的length属性弄混淆了。
+    * 该属性的值等于该函数声明时所需要传入的形参数量。
+    *
+    * 通过其length属性，可以知道声明了多少命令参数
+    * 通过arguments.length,可以知道在调用时传入了多少参数
+    * */
+    function makeNinja(name) {};
+    function makeSamurai(name, rank) {};
+    console.log("the function makeNinja param number : "+ makeNinja.length);
+    console.log("the function makeSamurai param number : "+ makeSamurai.length);
+
+    /*
+    * 利用参数个数进行函数重载
+    *
+    * 4.15 重载函数的方法
+    * */
+    function addMethod(object, name, fn) {
+        // 保存原有的函数，因为调用的时候可能不匹配传入的参数个数
+        var old = object[name];
+        // 创建一个新匿名函数作为新方法
+        object[name] = function () {
+            if (fn.length == arguments.length){// 如果该匿名函数的形参个数和实参个数匹配，就调用该函数
+                return fn.apply(this, arguments)
+            }else if (typeof old == 'function'){// 如果传入的参数不匹配，则调用原有的参数
+                return old.apply(this, arguments);
+            }
+        };
+    }
+    // test
+    var test_ninja = {};
+    addMethod(test_ninja, 'whatever', function () { /*do something*/ });
+    addMethod(test_ninja, 'whatever', function (a) { /*do something else*/ });
+    addMethod(test_ninja, 'whatever', function (a, b) { /*yet something else*/ });
+    // 创建一个基础对象，实现加载一些测试数据
+    var ninjas = {
+        values: ["Baude Li", "Sam Stephenson", "Alex Russell"]
+    };
+    // 在基础对象上绑定一个无参方法
+    addMethod(ninjas, "find", function () {
+        return this.values;
+    });
+    // 咋基础对象上绑定一个单参数的方法
+    addMethod(ninjas, "find", function (name) {
+        var ret = [];
+        for (var i=0; i < this.values.length; i++){
+            if (this.values[i].indexOf(name) == 0)
+                ret.push(this.values[i]);
+        }
+        return ret;
+    });
+    // 在基础对象上绑定两个参数的方法
+    addMethod(ninjas, "find", function (first, last) {
+        var ret = [];
+        for (var i=0; i < this.values.length; i++)
+            if (this.values[i] == (first + " " + last))
+                ret.push(this.values[i]);
+        return ret;
+    });
+    //console.log("ninjas.find().length = 3 "+(ninjas.find().length == 3));
+    console.log("test Method "+ninjas.find("Baude"));
+    console.log("Found ninja by first name " + (ninjas.find("Sam").length == 1));
+    console.log("Found ninja by first name and last name " + (ninjas.find("Baude", "Li").length == 1));
+    console.log("Found nothing " + (ninjas.find("Alex", "Russell", "Jr") == null));
+</script>
+</body>
+
+</html>

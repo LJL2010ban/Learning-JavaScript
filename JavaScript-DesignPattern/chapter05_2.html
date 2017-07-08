@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单校验</title>
+</head>
+<body>
+<form action="http:// xxx.com/register" id="registerForm" method="post">
+    请输入用户名: <input type="text" name="userName">
+    请输入密码:  <input type="text" name="password">
+    请输入手机号: <input type="text" name="phoneNumber">
+    <button>提交</button>
+</form>
+
+<script>
+    var registerForm = document.getElementById('registerForm');
+
+    registerForm.onsubmit = function () {
+        if (registerForm.userName.value === ''){
+            alert('用户名不能为空');
+            return false;
+        }
+
+        if (registerForm.password.valueOf.length < 6){
+            alert('密码长度不能少于6');
+            return false;
+        }
+
+        if (!)
+    }
+</script>
+</body>
+</html>
