@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Directive</title>
+    <script src="../lib/angular.js"></script>
+</head>
+<body ng-app="watchDemo">
+<!-- outer scope -->
+<p>Parent Scope: <input type="text" ng-model="input" /></p>
+<!-- inner isolation scope -->
+<my-directive my-text="{{input}}"></my-directive>
+
+<script>
+    var app = angular.module('watchDemo', [])
+        app.directive('myDirective', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '<p>User-defined directive scope : ' +
+                '<input type="text" ng-model="myText" /></p>',
+                scope: {
+                    myText: '@'
+                }
+            }
+        })
+</script>
+</body>
+</html>

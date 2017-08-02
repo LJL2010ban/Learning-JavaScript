@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/angular.js" type="text/javascript"></script>
+    <script src="app.js"></script>
+    <!--使用廉价引入外部css方式-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body  ng-app="MyApp">
+<div>
+    <div class="container" ng-controller="MyController">
+        <div class="my-info">我的名字是:
+            <span ng-bind="name">
+                <!--使用ng-bind防止网络状态不佳时出现没有被赋值的情况-->
+            </span>
+            <br />我的年龄是:<span ng-bind="age"></span>
+        </div>
+        <!--使用属性声明指令-->
+        <div class="my-directive"
+             my-directive ng-name="{{name}}"
+             age="age" change-my-age="changeAge()"></div>
+    </div>
+</div>
+</body>
+</html>

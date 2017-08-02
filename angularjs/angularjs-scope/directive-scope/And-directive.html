@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>& directive</title>
+    <script src="../lib/angular.js"></script>
+</head>
+<body ng-app="watchDemo">
+<!-- outer scope -->
+<p>Parent scope: <input type="text" ng-model="input" /> </p>
+<!-- inner isolation scope -->
+<my-directive get-my-text="input"></my-directive>
+
+<script>
+    var app = angular.module("watchDemo", []);
+    app.directive('myDirective', function () {
+        return {
+            restrict: 'E',
+            replace: true,
+            template: '<p>Result: {{getMyText()}}</p>',
+            scope: {
+                getMyText: '&'
+            }
+        }
+    })
+</script>
+</body>
+</html>
