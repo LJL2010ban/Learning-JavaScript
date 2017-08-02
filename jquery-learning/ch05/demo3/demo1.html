@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../scripts/jquery.js"></script>
+</head>
+<body>
+<form method="post" action="">
+    Your favorite sports:
+    <br />
+    <input type="checkbox" name="items" value="football" />football
+    <input type="checkbox" name="items" value="basketball" />basketball
+    <input type="checkbox" name="items" value="badminton" />badminton
+    <input type="checkbox" name="items" value="table tennis" />table tennis
+    <br />
+    <input type="button" id="CheckedAll" value="all checked">
+    <input type="button" id="CheckedNo" value="all not checked">
+    <input type="button" id="CheckedRev" value="Rev checked">
+
+    <input type="button" id="send" value="submit">
+</form>
+<script type="text/javascript">
+    $(function(){
+        // all checked
+        $("#CheckedAll").click(function () {
+            $('[name=items]:checkbox').attr('checked', true);
+        });
+        // no checked
+        $("#CheckedNo").click(function () {
+            $('[type=checkbox]:checkbox').attr('checked', false);
+        });
+        // Rev checked
+        $("#CheckedRev").click(function(){
+            $('[name=items]:checkbox').each(function () {
+                this.checked = !this.checked;
+            });
+        });
+        //out put value
+        $("#send").click(function () {
+            var str="your selected is :\r\n";
+            $('[name=items]:checkbox:checked').each(function () {
+                str += $(this).val() + "\r\n";
+            })
+            alert(str);
+        });
+    })
+</script>
+</body>
+</html>

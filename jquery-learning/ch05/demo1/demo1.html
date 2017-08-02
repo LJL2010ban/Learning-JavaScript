@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+      body {
+          font: normal 12px/17px Arial;
+      }
+      div {
+          padding: 2px;
+      }
+      input, textarea{
+          width: 12em;
+          border: 1px solid #888;
+      }
+      .focus {
+          border: 1px solid #f00;
+          background: #fcc;
+      }
+    </style>
+<script src="../../scripts/jquery.js"></script>
+</head>
+<body>
+<form action="#" method="post" id="regForm">
+    <fieldset>
+        <legend>Personal Info</legend>
+        <div>
+            <label for="username">Name:</label>
+            <input id="username" type="text" />
+        </div>
+        <div>
+            <label for="password">Pwd:</label>
+            <input id="password" type="password" />
+        </div>
+        <div>
+            <label for="msg">Info:</label>
+            <textarea id="msg" rows="2" cols="20"></textarea>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    $(function(){
+        $(":input").focus(function(){
+            $(this).addClass("focus");
+        }).blur(function () {
+            $(this).removeClass("focus");
+        });
+    })
+</script>
+</body>
+</html>
