@@ -26,3 +26,4 @@ Learning angular with different module, such as scope, controller or service
 ## modal - 模态框
  * [引入$modal模块](http://blog.csdn.net/Drongguang/article/details/52947016) 
  * [modalInstance 模态框](http://blog.csdn.net/qian_xiaona/article/details/51094265)
+ * [modal引入父级scope作用域](http://blog.csdn.net/zhujun_xiaoxin/article/details/53172778)
