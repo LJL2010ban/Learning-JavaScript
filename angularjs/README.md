@@ -22,3 +22,7 @@ Learning angular with different module, such as scope, controller or service
  
 ## 设置全局变量
  * [设置全局变量](http://blog.51yip.com/jsjquery/1601.html)
+ 
+## modal - 模态框
+ * [引入$modal模块](http://blog.csdn.net/Drongguang/article/details/52947016) 
+ * [modalInstance 模态框](http://blog.csdn.net/qian_xiaona/article/details/51094265)
