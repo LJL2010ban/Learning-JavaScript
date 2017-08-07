@@ -1,6 +1,16 @@
 # angularjs-module
 Learning angular with different module, such as scope, controller or service
 
+## Tips
+
+ * how to use rootScope in controller
+   ```
+   $scope.root = $rootScope;
+   $scope.root.test = 'test';
+   // 前端如何使用
+   {{root.test}}
+   ```
+
 * [Angularjs learning gitbook](https://hairui219.gitbooks.io/learning_angular/content/zh/chapter05_7.html)
 * [angularjs 控制器之间的通信方法](https://www.bbsmax.com/R/B0zqBYArJv/)
 
